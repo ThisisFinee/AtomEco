@@ -5,11 +5,11 @@
    * [Сериализаторы](#Сериализаторы)
    * [Views](#Views)
    * [Вспомогательные классы](#Вспомогательные-классы)
-2) [Запросы(API)](#Запросы(API))
-   * [ORGANIZATION](#ORGANIZATION)
-   * [WASTE_STORAGE](#WASTE_STORAGE)
-   * [RELATIONS](#RELATIONS)
-   * [CONNECTION](#CONNECTION)
+2) [Запросы(API)](#ЗапросыAPI)
+   * [ORGANIZATION](#ORGANIZATIONAPI)
+   * [WASTE_STORAGE](#WASTE_STORAGEAPI)
+   * [RELATIONS](#RELATIONSAPI)
+   * [CONNECTION](#CONNECTIONAPI)
 3) [Сборка и запуск](#Сборка-и-запуск)
 4) [Тестирование](#Тестирование)
 ## Архитектура проекта
@@ -274,7 +274,7 @@
   * relations_all_paths_clear(relations) - очищает ways_structure у relations
 ## Запросы(API)
   ### Удобнее кидать запросы через Postman, но если его нет или не хочется его запускать, я также оставил тут запросы через базовый curl
-  ### ORGANIZATION
+  ### ORGANIZATION(API)
 1. Получение списка организаций    
   Описание: Возвращает список всех организаций.    
   ***Postman:***    
@@ -336,7 +336,7 @@
   ```bash
   curl -X DELETE http://localhost/waste/organizations/1/
   ```    
-  ### WASTE_STORAGE
+  ### WASTE_STORAGE(API)
 1. Получение списка хранилищ    
 Описание: Возвращает список всех хранилищ отходов.    
 ***Postman:***    
@@ -397,7 +397,7 @@
   ```bash
   curl -X DELETE http://localhost/waste/waste_storages/1/"
   ```
-  ### RELATIONS
+  ### RELATIONS(API)
 1. Список
   Описание: Возвращает все записи Relations.
   ***Postman:***    
@@ -491,7 +491,7 @@
   ```bash
   curl -X POST "http://localhost/waste/relations/generate_random_graphs/?type=partial&number=2"
   ```    
-  ### CONNECTION
+  ### CONNECTION(API)
 1. Получение списка дорог    
   Описание: Возвращает список всех дорог.    
   ***Postman:***    
