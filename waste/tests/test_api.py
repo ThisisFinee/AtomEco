@@ -21,8 +21,37 @@ class TestViews:
         return Generator.generate_random_graph("Test Relations_2")
 
     @pytest.fixture
-    def test_connection(self, test_relations):
-        return random.choice(Connection.objects.filter(relations=test_relations))
+    def test_relations_3(self):
+        return Relations.objects.create(
+            relations_name="test relations 3"
+        )
+
+    @pytest.fixture
+    def test_org_3(self, test_relations_3):
+        return Organization.objects.create(
+            name="org3",
+            generate_plastic=100,
+            generate_glass=50,
+            generate_bio_wastes=50,
+            relations=test_relations_3
+        )
+
+    @pytest.fixture
+    def test_storage_3(self, test_relations_3):
+        return WasteStorage.objects.create(
+            name="storage3",
+            max_plastic=100,
+            max_glass=50,
+            max_bio_wastes=50,
+            relations=test_relations_3
+        )
+
+    @pytest.fixture
+    def test_connection(self, test_relations_3, test_org_3, test_storage_3):
+        return Connection.objects.create(relations=test_relations_3,
+                                         first_point=test_org_3,
+                                         second_point=test_storage_3,
+                                         distance=225)
 
     @pytest.fixture
     def test_organization(self, test_relations):

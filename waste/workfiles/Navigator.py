@@ -15,8 +15,6 @@ class Navigator:
 
         graph = relations.graph_structure
         edges = graph['edges']
-        # nodes = {node['id']: node for node in graph['nodes']}
-        # storage_nodes = [node for node in nodes.values() if node['type'] == 'WasteStorage']
 
         remaining_wastes = {
             "plastic": organization.plastic or 0,
@@ -71,7 +69,7 @@ class Navigator:
                     result_distance -= clean_useless_paths()
                     continue
                 else:
-                    break  # Все пути исследованы, завершение
+                    break  # Все пути исследованы
 
             # Переход к следующему узлу
             target_node = edge['to']
@@ -98,7 +96,6 @@ class Navigator:
                         setattr(organization, waste_type, remaining_wastes[waste_type])
                         organization.save()
 
-            storage.save()
             used_edges.add(edge['id'])
 
             path_segment = [[current_node, target_node], edge['id']]
@@ -134,78 +131,6 @@ class Navigator:
             relations.save()
 
     @staticmethod
-    def calculate_path_for_organization1(organization):
-        from waste.models import WasteStorage
-
-        relations = organization.relations
-        StateReturner.relations_objects_state_return(relations)
-        graph = relations.graph_structure
-        remaining_wastes = {"plastic": organization.plastic,
-                            "glass": organization.glass,
-                            "bio_wastes": organization.bio_wastes}
-
-        # Подготавливаем структуру для путей и весов
-        node_connections = defaultdict(list)
-        for edge in graph['edges']:
-            node_connections[edge['from']].append((edge['to'], edge['distance']))
-            node_connections[edge['to']].append((edge['from'], edge['distance']))
-
-        visited = set()
-        paths = []
-
-        def traverse(current_node):
-            stack = deque([(current_node, [], 0)])  # [(текущая_точка, путь, текущая_дистанция)]
-            visited.clear()
-
-            while stack and any(remaining_wastes.values()):
-                node, path, dist = stack.pop()
-
-                if node in visited:
-                    continue
-                visited.add(node)
-
-                storage = next((s for s in graph['nodes'] if s['id'] == node and s['type'] == 'WasteStorage'), None)
-                if storage:
-                    storage_obj = WasteStorage.objects.get(id=node)
-                    waste_distribution = {}
-
-                    for waste_type, amount in remaining_wastes.items():
-                        if amount > 0:
-                            max_capacity = getattr(storage_obj, f"max_{waste_type}", 0)
-                            current_storage = getattr(storage_obj, waste_type, 0)
-                            available_capacity = max_capacity - current_storage
-
-                            if available_capacity > 0:
-                                to_store = min(amount, available_capacity)
-                                waste_distribution[waste_type] = to_store
-                                remaining_wastes[waste_type] -= to_store
-                                # Изменяем данные используемых объектов в бд
-                                setattr(storage_obj, waste_type, current_storage + to_store)
-                                storage_obj.save()
-                                setattr(organization, waste_type, remaining_wastes[waste_type])
-                                organization.save()
-
-                    if waste_distribution:
-                        paths.append({
-                            "path": path + [node],
-                            "waste_distribution": waste_distribution,
-                            "distance": dist
-                        })
-
-                for neighbor, distance in sorted(node_connections[node], key=lambda x: x[1]):
-                    if neighbor not in visited:
-                        stack.append((neighbor, path + [node], dist + distance))
-
-        traverse(organization.id)
-
-        if paths:
-            relations.ways_structure[organization.name] = paths
-        else:
-            relations.ways_structure[organization.name] = [{"error": "No paths found or storages are full"}]
-
-        relations.save()
-
-    @staticmethod
     def recalculate_all_paths(relations):
         from waste.models import Organization
         from waste.workfiles.GraphConstructor import GraphConstructor
@@ -238,7 +163,6 @@ class Navigator:
             forward_key = (edge['from'], edge['to'])
             reverse_key = (edge['to'], edge['from'])
 
-            # Проверяем, не обработана ли пара путей
             if forward_key in processed_pairs or reverse_key in processed_pairs:
                 continue
 

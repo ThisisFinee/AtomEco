@@ -17,7 +17,7 @@ class WasteStorageSerializer(BaseSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        allowed_keys = ['relations', 'name', 'max_plastic', 'max_glass', 'max_bio_wastes']
+        allowed_keys = ['name', 'max_plastic', 'max_glass', 'max_bio_wastes']
         validated_data = self.filter_validated_data(validated_data, allowed_keys)
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

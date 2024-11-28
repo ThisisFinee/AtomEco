@@ -16,7 +16,7 @@ class OrganizationSerializer(BaseSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        allowed_keys = ['relations', 'name', 'generate_plastic', 'generate_glass', 'generate_bio_wastes']
+        allowed_keys = ['name', 'generate_plastic', 'generate_glass', 'generate_bio_wastes']
         validated_data = self.filter_validated_data(validated_data, allowed_keys)
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

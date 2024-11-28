@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="797e8b63-7436-43f5-bdf5-406d8b436bf2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/waste/project_serializers/OrganisationSerializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/waste/project_serializers/OrganisationSerializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/waste/project_serializers/WasteStorageSerializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/waste/project_serializers/WasteStorageSerializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/waste/tests/test_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/waste/tests/test_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/waste/workfiles/Navigator.py" beforeDir="false" afterPath="$PROJECT_DIR$/waste/workfiles/Navigator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
